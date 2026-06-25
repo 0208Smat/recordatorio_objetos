@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>No Lo Dejé Ahí</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginContainer" class="login-card">
+
+    <img src="logo.jpg"
+         class="logo">
+
+    <h1>No Lo Dejé Ahí</h1>
+
+    <p>
+        Sistema de registro de objetos
+    </p>
+
+    <label>Usuario</label>
+
+    <input
+        id="usuario"
+        type="text">
+
+    <label>Contraseña</label>
+
+    <input
+        id="password"
+        type="password">
+
+    <button
+        onclick="login()">
+
+        Ingresar
+
+    </button>
+
+</div>
+
+<!-- APLICACIÓN -->
+
+<div
+id="app"
+class="hidden">
+
+<header>
+
+    <div>
+
+        <h1>No Lo Dejé Ahí</h1>
+
+        <span id="bienvenida"></span>
+
+    </div>
+
+    <div>
+
+        <span id="reloj"></span>
+
+        <button
+        onclick="logout()">
+
+            Cerrar sesión
+
+        </button>
+
+    </div>
+
+</header>
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+    <div class="card">
+
+        <h3>
+
+            Objetos registrados
+
+        </h3>
+
+        <span id="totalObjetos">
+
+            0
+
+        </span>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Categoría principal
+
+        </h3>
+
+        <span id="categoriaPrincipal">
+
+            -
+
+        </span>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Último registro
+
+        </h3>
+
+        <span id="ultimoRegistro">
+
+            -
+
+        </span>
+
+    </div>
+
+</section>
+
+<!-- REGISTRO -->
+
+<section class="formulario">
+
+<h2>
+
+Registrar objeto
+
+</h2>
+
+<label>
+
+Nombre del objeto
+
+</label>
+
+<input
+id="nombreObjeto"
+type="text">
+
+<label>
+
+Categoría
+
+</label>
+
+<select
+id="categoria">
+
+<option>Llaves</option>
+
+<option>Electrónica</option>
+
+<option>Documentos</option>
+
+<option>Vehículos</option>
+
+<option>Ropa</option>
+
+<option>Mochila</option>
+
+<option>Otros</option>
+
+</select>
+
+<label>
+
+¿Dónde lo dejaste?
+
+</label>
+
+<textarea
+id="descripcionLugar">
+
+</textarea>
+
+<label>
+
+Fotografía
+
+</label>
+
+<input
+id="fotoObjeto"
+type="file"
+accept="image/*"
+capture="environment">
+
+<label>
+
+Latitud
+
+</label>
+
+<input
+id="latitud"
+readonly>
+
+<label>
+
+Longitud
+
+</label>
+
+<input
+id="longitud"
+readonly>
+
+<div class="botonera">
+
+<button
+onclick="obtenerUbicacion()">
+
+Obtener ubicación
+
+</button>
+
+<button
+onclick="registrarObjeto()">
+
+Guardar objeto
+
+</button>
+
+</div>
+
+</section>
+
+<!-- BUSCADOR -->
+
+<section>
+
+<h2>
+
+Buscar objeto
+
+</h2>
+
+<input
+id="textoBusqueda"
+type="text"
+placeholder="Nombre del objeto">
+
+<button
+onclick="buscarObjeto()">
+
+Buscar
+
+</button>
+
+<button
+onclick="mostrarObjetos()">
+
+Reiniciar búsqueda
+
+</button>
+
+</section>
+
+<!-- LISTADO -->
+
+<section>
+
+<h2>
+
+Mis objetos
+
+</h2>
+
+<div
+id="contenedorObjetos"
+class="contenedorObjetos">
+
+</div>
+
+</section>
+
+<!-- DETALLE -->
+
+<section
+id="detalleObjeto"
+class="hidden">
+
+<h2>
+
+Detalle
+
+</h2>
+
+<img
+id="detalleImagen"
+class="detalleImagen">
+
+<p>
+
+<b>Objeto:</b>
+
+<span
+id="detalleNombre">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Categoría:</b>
+
+<span
+id="detalleCategoria">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Lugar:</b>
+
+<span
+id="detalleLugar">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Latitud:</b>
+
+<span
+id="detalleLatitud">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Longitud:</b>
+
+<span
+id="detalleLongitud">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Fecha:</b>
+
+<span
+id="detalleFecha">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Hora:</b>
+
+<span
+id="detalleHora">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Tiempo transcurrido:</b>
+
+<span
+id="detalleTiempo">
+
+</span>
+
+</p>
+
+<p>
+
+<b>Distancia aproximada:</b>
+
+<span
+id="detalleDistancia">
+
+</span>
+
+</p>
+
+<iframe
+id="mapa"
+width="100%"
+height="250"
+style="border:0; margin-top:15px;"
+loading="lazy">
+</iframe>
+
+<div class="botonera">
+
+<button
+onclick="abrirGoogleMaps()">
+
+Abrir en Google Maps
+
+</button>
+
+<button
+onclick="cerrarDetalle()">
+
+Cerrar
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
