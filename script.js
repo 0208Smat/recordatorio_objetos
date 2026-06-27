@@ -11,18 +11,18 @@ let objetos = JSON.parse(localStorage.getItem("objetos")) || [];
 // LOGIN
 // ===============================
 
-function login(){
+function login() {
 
     const usuario = document.getElementById("usuario").value;
     const password = document.getElementById("password").value;
 
-    if(usuario === "usuario" && password === "123"){
+    if (usuario === "usuario" && password === "123") {
         usuarioActual = usuario;
     }
-    else if(usuario === "admin" && password === "123"){
+    else if (usuario === "admin" && password === "123") {
         usuarioActual = usuario;
     }
-    else{
+    else {
         alert("Credenciales incorrectas");
         return;
     }
@@ -42,7 +42,7 @@ function login(){
 // LOGOUT
 // ===============================
 
-function logout(){
+function logout() {
     location.reload();
 }
 
@@ -50,7 +50,7 @@ function logout(){
 // RELOJ
 // ===============================
 
-function iniciarReloj(){
+function iniciarReloj() {
 
     setInterval(() => {
 
@@ -64,9 +64,9 @@ function iniciarReloj(){
 // GPS
 // ===============================
 
-function obtenerUbicacion(){
+function obtenerUbicacion() {
 
-    if(!navigator.geolocation){
+    if (!navigator.geolocation) {
         alert("GPS no soportado");
         return;
     }
@@ -88,7 +88,7 @@ function obtenerUbicacion(){
 // CONVERTIR IMAGEN A BASE64
 // ===============================
 
-function leerImagen(file){
+function leerImagen(file) {
 
     return new Promise((resolve, reject) => {
 
@@ -107,14 +107,9 @@ function leerImagen(file){
 // REGISTRAR OBJETO
 // ===============================
 
-async function registrarObjeto(){
+async function registrarObjeto() {
 
     precisionGPS: true
-
-    if(!lat || !lon){
-    alert("Debe obtener ubicación GPS antes de guardar");
-    return;
-}
 
     const nombre = document.getElementById("nombreObjeto").value;
     const categoria = document.getElementById("categoria").value;
@@ -123,14 +118,19 @@ async function registrarObjeto(){
     const lon = document.getElementById("longitud").value;
     const fotoInput = document.getElementById("fotoObjeto");
 
-    if(!nombre || !categoria){
+    if (!lat || !lon) {
+        alert("Debe obtener ubicación GPS antes de guardar");
+        return;
+    }
+
+    if (!nombre || !categoria) {
         alert("Complete los campos obligatorios");
         return;
     }
 
     let imagenBase64 = "";
 
-    if(fotoInput.files.length > 0){
+    if (fotoInput.files.length > 0) {
         imagenBase64 = await leerImagen(fotoInput.files[0]);
     }
 
@@ -170,7 +170,7 @@ async function registrarObjeto(){
 // LIMPIAR FORM
 // ===============================
 
-function limpiarFormulario(){
+function limpiarFormulario() {
 
     document.getElementById("nombreObjeto").value = "";
     document.getElementById("descripcionLugar").value = "";
@@ -183,7 +183,7 @@ function limpiarFormulario(){
 // MOSTRAR OBJETOS
 // ===============================
 
-function mostrarObjetos(lista = objetos){
+function mostrarObjetos(lista = objetos) {
 
     const contenedor = document.getElementById("contenedorObjetos");
 
@@ -215,7 +215,7 @@ function mostrarObjetos(lista = objetos){
 // BUSCAR OBJETO
 // ===============================
 
-function buscarObjeto(){
+function buscarObjeto() {
 
     const texto = document.getElementById("textoBusqueda").value.toLowerCase();
 
@@ -230,60 +230,60 @@ function buscarObjeto(){
 // VER DETALLE
 // ===============================
 
-function verDetalle(id){
+function verDetalle(id) {
 
     const obj = objetos.find(o => o.id === id);
 
-if(!obj) return;
+    if (!obj) return;
 
-document.getElementById("detalleObjeto").classList.remove("hidden");
+    document.getElementById("detalleObjeto").classList.remove("hidden");
 
-document.getElementById("detalleImagen").src = obj.imagen;
-document.getElementById("detalleNombre").innerText = obj.nombre;
-document.getElementById("detalleCategoria").innerText = obj.categoria;
-document.getElementById("detalleLugar").innerText = obj.descripcion;
-document.getElementById("detalleLatitud").innerText = obj.lat;
-document.getElementById("detalleLongitud").innerText = obj.lon;
-document.getElementById("detalleFecha").innerText = obj.fecha;
-document.getElementById("detalleHora").innerText = obj.hora;
+    document.getElementById("detalleImagen").src = obj.imagen;
+    document.getElementById("detalleNombre").innerText = obj.nombre;
+    document.getElementById("detalleCategoria").innerText = obj.categoria;
+    document.getElementById("detalleLugar").innerText = obj.descripcion;
+    document.getElementById("detalleLatitud").innerText = obj.lat;
+    document.getElementById("detalleLongitud").innerText = obj.lon;
+    document.getElementById("detalleFecha").innerText = obj.fecha;
+    document.getElementById("detalleHora").innerText = obj.hora;
 
-document.getElementById("detalleTiempo").innerText =
-    calcularTiempo(obj.fecha, obj.hora);
+    document.getElementById("detalleTiempo").innerText =
+        calcularTiempo(obj.fecha, obj.hora);
 
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
 
-    navigator.geolocation.getCurrentPosition((pos) => {
+        navigator.geolocation.getCurrentPosition((pos) => {
 
-        const distancia = calcularDistanciaKm(
-            pos.coords.latitude,
-            pos.coords.longitude,
-            parseFloat(obj.lat),
-            parseFloat(obj.lon)
-        );
+            const distancia = calcularDistanciaKm(
+                pos.coords.latitude,
+                pos.coords.longitude,
+                parseFloat(obj.lat),
+                parseFloat(obj.lon)
+            );
 
-        document.getElementById("detalleDistancia").innerText =
-            distancia.toFixed(2) + " km";
+            document.getElementById("detalleDistancia").innerText =
+                distancia.toFixed(2) + " km";
 
-        if(distancia < 0.05){
-            alert("📍 Estás muy cerca del objeto");
-        }
-        else if(distancia < 1){
-            alert("📌 Estás relativamente cerca del objeto");
-        }
+            if (distancia < 0.05) {
+                alert("📍 Estás muy cerca del objeto");
+            }
+            else if (distancia < 1) {
+                alert("📌 Estás relativamente cerca del objeto");
+            }
 
-    });
+        });
 
-    document.getElementById("mapa").src =
-`https://www.google.com/maps?q=${obj.lat},${obj.lon}&output=embed`;
+        document.getElementById("mapa").src =
+            `https://www.google.com/maps?q=${obj.lat},${obj.lon}&output=embed`;
 
-}
+    }
 }
 
 // ===============================
 // CERRAR DETALLE
 // ===============================
 
-function cerrarDetalle(){
+function cerrarDetalle() {
     document.getElementById("detalleObjeto").classList.add("hidden");
 }
 
@@ -291,7 +291,7 @@ function cerrarDetalle(){
 // CALCULAR TIEMPO TRANSCURRIDO
 // ===============================
 
-function calcularTiempo(fecha, hora){
+function calcularTiempo(fecha, hora) {
 
     const inicio = new Date(fecha + " " + hora);
     const ahora = new Date();
@@ -309,7 +309,7 @@ function calcularTiempo(fecha, hora){
 // DASHBOARD
 // ===============================
 
-function actualizarDashboard(){
+function actualizarDashboard() {
 
     document.getElementById("totalObjetos").innerText = objetos.length;
 
@@ -322,8 +322,8 @@ function actualizarDashboard(){
     let maxCat = "-";
     let maxVal = 0;
 
-    for(let c in categorias){
-        if(categorias[c] > maxVal){
+    for (let c in categorias) {
+        if (categorias[c] > maxVal) {
             maxVal = categorias[c];
             maxCat = c;
         }
@@ -331,7 +331,7 @@ function actualizarDashboard(){
 
     document.getElementById("categoriaPrincipal").innerText = maxCat;
 
-    if(objetos.length > 0){
+    if (objetos.length > 0) {
         document.getElementById("ultimoRegistro").innerText =
             objetos[objetos.length - 1].nombre;
     }
@@ -341,7 +341,7 @@ function actualizarDashboard(){
 // GOOGLE MAPS
 // ===============================
 
-function abrirGoogleMaps(){
+function abrirGoogleMaps() {
 
     const texto = document.getElementById("detalleLatitud").innerText;
     const lon = document.getElementById("detalleLongitud").innerText;
@@ -349,7 +349,7 @@ function abrirGoogleMaps(){
     window.open(`https://www.google.com/maps?q=${texto},${lon}`);
 }
 
-function calcularDistanciaKm(lat1, lon1, lat2, lon2){
+function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
 
     const R = 6371;
 
@@ -357,27 +357,27 @@ function calcularDistanciaKm(lat1, lon1, lat2, lon2){
     const dLon = (lon2 - lon1) * Math.PI / 180;
 
     const a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(lat1 * Math.PI / 180) *
         Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon/2) * Math.sin(dLon/2);
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c;
 }
 
-function alertaContextual(distancia){
+function alertaContextual(distancia) {
 
-    if(distancia < 0.05){
+    if (distancia < 0.05) {
         return "📍 Estás literalmente en el lugar del objeto";
     }
 
-    if(distancia < 0.5){
+    if (distancia < 0.5) {
         return "👀 Estás muy cerca, revisa alrededor";
     }
 
-    if(distancia < 2){
+    if (distancia < 2) {
         return "📌 Estás relativamente cerca del objeto";
     }
 
