@@ -16,3 +16,6 @@ Posteriormente puede buscar un objeto y visualizar toda la información.
 # Credenciales
 usuario
 123
+
+#Repo git
+https://github.com/0208Smat/recordatorio_objetos
