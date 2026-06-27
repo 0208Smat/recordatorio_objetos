@@ -64,24 +64,61 @@ function iniciarReloj() {
 // GPS
 // ===============================
 
-function obtenerUbicacion() {
+function obtenerUbicacion(){
 
-    if (!navigator.geolocation) {
-        alert("GPS no soportado");
+    if(!navigator.geolocation){
+        alert("Este dispositivo no soporta geolocalización.");
         return;
     }
 
-    navigator.geolocation.getCurrentPosition((pos) => {
+    navigator.geolocation.getCurrentPosition(
 
-        document.getElementById("latitud").value =
-            pos.coords.latitude;
+        function(pos){
 
-        document.getElementById("longitud").value =
-            pos.coords.longitude;
+            document.getElementById("latitud").value =
+                pos.coords.latitude.toFixed(6);
 
-    }, () => {
-        alert("No se pudo obtener ubicación");
-    });
+            document.getElementById("longitud").value =
+                pos.coords.longitude.toFixed(6);
+
+            alert("Ubicación obtenida correctamente.");
+
+        },
+
+        function(error){
+
+            let mensaje = "";
+
+            switch(error.code){
+
+                case error.PERMISSION_DENIED:
+                    mensaje = "Permiso de ubicación denegado.";
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    mensaje = "Ubicación no disponible.";
+                    break;
+
+                case error.TIMEOUT:
+                    mensaje = "Tiempo de espera agotado.";
+                    break;
+
+                default:
+                    mensaje = "Error desconocido.";
+            }
+
+            alert(mensaje);
+
+        },
+
+        {
+            enableHighAccuracy:true,
+            timeout:15000,
+            maximumAge:0
+        }
+
+    );
+
 }
 
 // ===============================
