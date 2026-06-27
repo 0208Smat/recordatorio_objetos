@@ -158,9 +158,7 @@ async function registrarObjeto() {
     try{
         localStorage.setItem("objetos", JSON.stringify(objetos));
     } catch (e) {
-        //silent
-        /*alert("Error inesperado al guardar el objeto, favor reiniciar la app o probar con una imagen más liviana");
-        return;*/
+        alert("Error inesperado al guardar el objeto, el mismo estará disponible durante esta sesión pero no luego de reiniciar la app");
     }
     
 
