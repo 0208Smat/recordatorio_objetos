@@ -157,12 +157,13 @@ async function registrarObjeto() {
 
     try{
         localStorage.setItem("objetos", JSON.stringify(objetos));
+        alert("Objeto registrado correctamente");
     } catch (e) {
         alert("Error inesperado al guardar el objeto, el mismo estará disponible durante esta sesión pero no luego de reiniciar la app");
     }
     
 
-    alert("Objeto registrado correctamente");
+    
 
     limpiarFormulario();
 
