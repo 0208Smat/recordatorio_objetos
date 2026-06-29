@@ -5,440 +5,327 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>No Lo Dejé Ahí</title>
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<!-- LOGIN -->
+    <!-- LOGIN -->
 
-<div id="loginContainer" class="login-card">
+    <div id="loginContainer" class="login-card">
 
-    <img src="logo.jpg"
-         class="logo">
-
-    <h1>No Lo Dejé Ahí</h1>
-
-    <p>
-        Sistema de registro de objetos
-    </p>
-
-    <label>Usuario</label>
-
-    <input
-        id="usuario"
-        type="text">
-
-    <label>Contraseña</label>
-
-    <input
-        id="password"
-        type="password">
-
-    <button
-        onclick="login()">
-
-        Ingresar
-
-    </button>
-
-</div>
-
-<!-- APLICACIÓN -->
-
-<div
-id="app"
-class="hidden">
-
-<header>
-
-    <div>
+        <img src="logo.jpg" class="logo">
 
         <h1>No Lo Dejé Ahí</h1>
 
-        <span id="bienvenida"></span>
+        <p>
+            Sistema de registro de objetos
+        </p>
 
-    </div>
+        <label>Usuario</label>
 
-    <div>
+        <input id="usuario" type="text">
 
-        <span style="display:none" id="reloj"></span>
+        <label>Contraseña</label>
 
-        <button
-        onclick="logout()">
+        <input id="password" type="password">
 
-            Cerrar sesión
+        <button onclick="login()">
+
+            Ingresar
 
         </button>
 
     </div>
 
-</header>
+    <!-- APLICACIÓN -->
 
-<!-- DASHBOARD -->
+    <div id="app" class="hidden">
 
-<section class="dashboard">
+        <header>
 
-    <div class="card">
+            <div>
 
-        <h3>
+                <h1>No Lo Dejé Ahí</h1>
 
-            Objetos registrados
+                <span id="bienvenida"></span>
 
-        </h3>
+            </div>
 
-        <span id="totalObjetos">
+            <div>
 
-            0
+                <span style="display:none" id="reloj"></span>
 
-        </span>
+                <button onclick="logout()">
 
-    </div>
+                    Cerrar sesión
 
-    <div class="card">
+                </button>
 
-        <h3>
+            </div>
 
-            Categoría principal
+        </header>
 
-        </h3>
+        <!-- DASHBOARD -->
 
-        <span id="categoriaPrincipal">
+        <section class="dashboard">
 
-            -
+            <div class="card">
 
-        </span>
+                <h3>
 
-    </div>
+                    Objetos registrados
 
-    <div class="card">
+                </h3>
 
-        <h3>
+                <span id="totalObjetos">
 
-            Último registro
+                    0
 
-        </h3>
+                </span>
 
-        <span id="ultimoRegistro">
+            </div>
 
-            -
+            <div class="card">
 
-        </span>
+                <h3>
 
-    </div>
+                    Categoría principal
 
-</section>
+                </h3>
 
-<!-- REGISTRO -->
+                <span id="categoriaPrincipal">
 
-<section class="formulario">
+                    -
 
-<h2>
+                </span>
 
-Registrar objeto
+            </div>
 
-</h2>
+            <div class="card">
 
-<label>
+                <h3>
 
-Nombre del objeto
+                    Último registro
 
-</label>
+                </h3>
 
-<input
-id="nombreObjeto"
-type="text">
+                <span id="ultimoRegistro">
 
-<label>
+                    -
 
-Categoría
+                </span>
 
-</label>
+            </div>
 
-<select
-id="categoria">
+        </section>
 
-<option>Llaves</option>
+        <!-- REGISTRO -->
 
-<option>Electrónica</option>
+        <section class="formulario">
 
-<option>Documentos</option>
+            <h2>
 
-<option>Vehículos</option>
+                Registrar objeto
 
-<option>Ropa</option>
+            </h2>
 
-<option>Mochila</option>
+            <label>
 
-<option>Otros</option>
+                Nombre del objeto
 
-</select>
+            </label>
 
-<label>
+            <input id="nombreObjeto" type="text">
 
-¿Dónde lo dejaste?
+            <label>
 
-</label>
+                Categoría
 
-<textarea
-id="descripcionLugar">
+            </label>
+
+            <select id="categoria">
+
+                <option>Llaves</option>
+
+                <option>Electrónica</option>
+
+                <option>Documentos</option>
+
+                <option>Vehículos</option>
+
+                <option>Ropa</option>
+
+                <option>Mochila</option>
+
+                <option>Otros</option>
+
+            </select>
+
+            <label>
+
+                ¿Dónde lo dejaste?
+
+            </label>
+
+            <textarea id="descripcionLugar">
 
 </textarea>
 
-<label>
+            <label>
 
-Fotografía
+                Fotografía
 
-</label>
+            </label>
 
-<input
-id="fotoObjeto"
-type="file"
-accept="image/*"
-capture="environment">
+            <input id="fotoObjeto" type="file" accept="image/*" capture="environment">
 
-<label>
+            <div class="botonera">
 
-Latitud
+                <button onclick="registrarObjeto()">
 
-</label>
+                    Guardar objeto
 
-<input
-id="latitud"
-readonly>
+                </button>
 
-<label>
+            </div>
 
-Longitud
+        </section>
 
-</label>
+        <!-- BUSCADOR -->
 
-<input
-id="longitud"
-readonly>
+        <section>
 
-<div class="botonera">
+            <h2>
 
-<button
-onclick="obtenerUbicacion()">
+                Buscar objeto
 
-Obtener ubicación
+            </h2>
 
-</button>
+            <input id="textoBusqueda" type="text" placeholder="Nombre del objeto">
 
-<button
-onclick="registrarObjeto()">
+            <button onclick="buscarObjeto()">
 
-Guardar objeto
+                Buscar
 
-</button>
+            </button>
 
-</div>
+            <button onclick="mostrarObjetos()">
 
-</section>
+                Reiniciar búsqueda
 
-<!-- BUSCADOR -->
+            </button>
 
-<section>
+        </section>
 
-<h2>
+        <!-- LISTADO -->
 
-Buscar objeto
+        <section>
 
-</h2>
+            <h2>
 
-<input
-id="textoBusqueda"
-type="text"
-placeholder="Nombre del objeto">
+                Mis objetos
 
-<button
-onclick="buscarObjeto()">
+            </h2>
 
-Buscar
+            <div id="contenedorObjetos" class="contenedorObjetos">
 
-</button>
+            </div>
 
-<button
-onclick="mostrarObjetos()">
+        </section>
 
-Reiniciar búsqueda
+        <!-- DETALLE -->
 
-</button>
+        <section id="detalleObjeto" class="hidden">
 
-</section>
+            <h2>
 
-<!-- LISTADO -->
+                Detalle
 
-<section>
+            </h2>
 
-<h2>
+            <img id="detalleImagen" class="detalleImagen">
 
-Mis objetos
+            <p>
 
-</h2>
+                <b>Objeto:</b>
 
-<div
-id="contenedorObjetos"
-class="contenedorObjetos">
+                <span id="detalleNombre">
 
-</div>
+                </span>
 
-</section>
+            </p>
 
-<!-- DETALLE -->
+            <p>
 
-<section
-id="detalleObjeto"
-class="hidden">
+                <b>Categoría:</b>
 
-<h2>
+                <span id="detalleCategoria">
 
-Detalle
+                </span>
 
-</h2>
+            </p>
 
-<img
-id="detalleImagen"
-class="detalleImagen">
+            <p>
 
-<p>
+                <b>Lugar:</b>
 
-<b>Objeto:</b>
+                <span id="detalleLugar">
 
-<span
-id="detalleNombre">
+                </span>
 
-</span>
+            </p>
 
-</p>
+            <p>
 
-<p>
+                <b>Fecha:</b>
 
-<b>Categoría:</b>
+                <span id="detalleFecha">
 
-<span
-id="detalleCategoria">
+                </span>
 
-</span>
+            </p>
 
-</p>
+            <p>
 
-<p>
+                <b>Hora:</b>
 
-<b>Lugar:</b>
+                <span id="detalleHora">
 
-<span
-id="detalleLugar">
+                </span>
 
-</span>
+            </p>
 
-</p>
+            <p>
 
-<p>
+                <b>Tiempo transcurrido:</b>
 
-<b>Latitud:</b>
+                <span id="detalleTiempo">
 
-<span
-id="detalleLatitud">
+                </span>
 
-</span>
+            </p>
 
-</p>
+            <div class="botonera">
 
-<p>
+                <button onclick="cerrarDetalle()">
 
-<b>Longitud:</b>
+                    Cerrar
 
-<span
-id="detalleLongitud">
+                </button>
 
-</span>
+            </div>
 
-</p>
+        </section>
 
-<p>
+    </div>
 
-<b>Fecha:</b>
-
-<span
-id="detalleFecha">
-
-</span>
-
-</p>
-
-<p>
-
-<b>Hora:</b>
-
-<span
-id="detalleHora">
-
-</span>
-
-</p>
-
-<p>
-
-<b>Tiempo transcurrido:</b>
-
-<span
-id="detalleTiempo">
-
-</span>
-
-</p>
-
-<p>
-
-<b>Distancia aproximada:</b>
-
-<span
-id="detalleDistancia">
-
-</span>
-
-</p>
-
-<iframe
-id="mapa"
-width="100%"
-height="250"
-style="border:0; margin-top:15px;"
-loading="lazy">
-</iframe>
-
-<div class="botonera">
-
-<button
-onclick="abrirGoogleMaps()">
-
-Abrir en Google Maps
-
-</button>
-
-<button
-onclick="cerrarDetalle()">
-
-Cerrar
-
-</button>
-
-</div>
-
-</section>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 

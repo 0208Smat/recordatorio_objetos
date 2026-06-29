@@ -398,14 +398,6 @@ section h2{
 
 }
 
-/* INPUTS SOLO LECTURA */
-
-input[readonly]{
-
-    background:#f2f2f2;
-
-}
-
 /* MENSAJES */
 
 .mensaje{

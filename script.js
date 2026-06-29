@@ -61,67 +61,6 @@ function iniciarReloj() {
 }
 
 // ===============================
-// GPS
-// ===============================
-
-function obtenerUbicacion(){
-
-    if(!navigator.geolocation){
-        alert("Este dispositivo no soporta geolocalización.");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(pos){
-
-            document.getElementById("latitud").value =
-                pos.coords.latitude.toFixed(6);
-
-            document.getElementById("longitud").value =
-                pos.coords.longitude.toFixed(6);
-
-            alert("Ubicación obtenida correctamente.");
-
-        },
-
-        function(error){
-
-            let mensaje = "";
-
-            switch(error.code){
-
-                case error.PERMISSION_DENIED:
-                    mensaje = "Permiso de ubicación denegado.";
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    mensaje = "Ubicación no disponible.";
-                    break;
-
-                case error.TIMEOUT:
-                    mensaje = "Tiempo de espera agotado.";
-                    break;
-
-                default:
-                    mensaje = "Error desconocido.";
-            }
-
-            alert(mensaje);
-
-        },
-
-        {
-            enableHighAccuracy:true,
-            timeout:15000,
-            maximumAge:0
-        }
-
-    );
-
-}
-
-// ===============================
 // CONVERTIR IMAGEN A BASE64
 // ===============================
 
@@ -151,14 +90,7 @@ async function registrarObjeto() {
     const nombre = document.getElementById("nombreObjeto").value;
     const categoria = document.getElementById("categoria").value;
     const descripcion = document.getElementById("descripcionLugar").value;
-    const lat = document.getElementById("latitud").value;
-    const lon = document.getElementById("longitud").value;
     const fotoInput = document.getElementById("fotoObjeto");
-
-    if (!lat || !lon) {
-        alert("Debe obtener ubicación GPS antes de guardar");
-        return;
-    }
 
     if (!nombre || !categoria) {
         alert("Complete los campos obligatorios");
@@ -178,10 +110,6 @@ async function registrarObjeto() {
         nombre,
         categoria,
         descripcion,
-
-        lat,
-        lon,
-
         imagen: imagenBase64,
 
         fecha: new Date().toISOString().split("T")[0],
@@ -196,7 +124,7 @@ async function registrarObjeto() {
         localStorage.setItem("objetos", JSON.stringify(objetos));
         alert("Objeto registrado correctamente");
     } catch (e) {
-        alert("Error inesperado al guardar el objeto, el mismo estará disponible durante esta sesión pero no luego de reiniciar la app");
+        alert("Error inesperado al guardar el objeto,imagen demasiado pesada, el mismo estará disponible durante esta sesión pero no luego de reiniciar la app");
     }
     
 
@@ -217,8 +145,6 @@ function limpiarFormulario() {
 
     document.getElementById("nombreObjeto").value = "";
     document.getElementById("descripcionLugar").value = "";
-    document.getElementById("latitud").value = "";
-    document.getElementById("longitud").value = "";
     document.getElementById("fotoObjeto").value = "";
 }
 
@@ -285,41 +211,11 @@ function verDetalle(id) {
     document.getElementById("detalleNombre").innerText = obj.nombre;
     document.getElementById("detalleCategoria").innerText = obj.categoria;
     document.getElementById("detalleLugar").innerText = obj.descripcion;
-    document.getElementById("detalleLatitud").innerText = obj.lat;
-    document.getElementById("detalleLongitud").innerText = obj.lon;
     document.getElementById("detalleFecha").innerText = obj.fecha;
     document.getElementById("detalleHora").innerText = obj.hora;
 
     document.getElementById("detalleTiempo").innerText =
         calcularTiempo(obj.fecha, obj.hora);
-
-    if (navigator.geolocation) {
-
-        navigator.geolocation.getCurrentPosition((pos) => {
-
-            const distancia = calcularDistanciaKm(
-                pos.coords.latitude,
-                pos.coords.longitude,
-                parseFloat(obj.lat),
-                parseFloat(obj.lon)
-            );
-
-            document.getElementById("detalleDistancia").innerText =
-                distancia.toFixed(2) + " km";
-
-            if (distancia < 0.05) {
-                alert("📍 Estás muy cerca del objeto");
-            }
-            else if (distancia < 1) {
-                alert("📌 Estás relativamente cerca del objeto");
-            }
-
-        });
-
-        document.getElementById("mapa").src =
-            `https://www.google.com/maps?q=${obj.lat},${obj.lon}&output=embed`;
-
-    }
 }
 
 // ===============================
@@ -378,52 +274,5 @@ function actualizarDashboard() {
         document.getElementById("ultimoRegistro").innerText =
             objetos[objetos.length - 1].nombre;
     }
-}
-
-// ===============================
-// GOOGLE MAPS
-// ===============================
-
-function abrirGoogleMaps() {
-
-    const texto = document.getElementById("detalleLatitud").innerText;
-    const lon = document.getElementById("detalleLongitud").innerText;
-
-    window.open(`https://www.google.com/maps?q=${texto},${lon}`);
-}
-
-function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
-
-    const R = 6371;
-
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c;
-}
-
-function alertaContextual(distancia) {
-
-    if (distancia < 0.05) {
-        return "📍 Estás literalmente en el lugar del objeto";
-    }
-
-    if (distancia < 0.5) {
-        return "👀 Estás muy cerca, revisa alrededor";
-    }
-
-    if (distancia < 2) {
-        return "📌 Estás relativamente cerca del objeto";
-    }
-
-    return "❌ Estás lejos del objeto";
 }
 
