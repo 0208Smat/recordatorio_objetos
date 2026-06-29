@@ -155,7 +155,9 @@ function limpiarFormulario() {
 function mostrarObjetos(lista = objetos) {
 
     const contenedor = document.getElementById("contenedorObjetos");
+    const inputBusqueda = document.getElementById("textoBusqueda");
 
+    inputBusqueda.value = "";
     contenedor.innerHTML = "";
 
     lista.forEach(obj => {
